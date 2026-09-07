@@ -244,10 +244,10 @@
     display: flex;
     flex-wrap: nowrap;
     gap: 1.5rem;
-    width: max-content;
-    overflow: hidden;
-    scroll-snap-type: none;
-    animation: blogMarquee 20s linear infinite;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x proximity;
   }
 
   /* Duplicated set becomes visible only for this loop */
@@ -257,7 +257,7 @@
 
   .blogCard {
     flex: 0 0 82vw;
-    max-width: 320px;
+    max-width: 82vw;
   }
 }
 

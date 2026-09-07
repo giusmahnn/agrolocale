@@ -146,7 +146,7 @@ export const socialLinks = [
       </svg>
     ),
     label: "TikTok",
-    href: "https://www.tiktok.com/@Agrolocale",
+    href: "https://www.tiktok.com/@insideagrolocale",
   },
 ]
 
