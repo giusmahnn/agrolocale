@@ -11,8 +11,8 @@ type SortKey = 'default' | 'name-asc' | 'name-desc'
 /* ─── Product Card ───────────────────────────────────── */
 function ProduceCard({ p }: { p: typeof farmProduce[number] }) {
   const badgeClass =
-    p.badgeKey === 'red' ? styles.badgeRed
-    : p.badgeKey === 'green' ? styles.badgeGreen
+    p.badgeKey === 'green' ? styles.badgeGreen
+    : p.badgeKey === 'red' ? styles.badgeRed
     : styles.badgeGold
 
   return (
@@ -34,7 +34,7 @@ function ProduceCard({ p }: { p: typeof farmProduce[number] }) {
         <p className={styles.cardLoc}>🚚 {p.location}</p>
 
         <div className={styles.cardMeta}>
-          <span>✅ {p.acreage}</span>
+          <span>{p.variants}</span>
         </div>
 
         <div className={styles.cardFooter}>

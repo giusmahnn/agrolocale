@@ -54,8 +54,8 @@ export default function MaizePage() {
               </div>
             </div>
             <div className={styles.heroImgWrap}>
-              <div className={styles.heroBadgeHot}>🔥 Hot Cake</div>
-              <div className={styles.heroBadgeStock}>In Stock</div>
+              {/* <div className={styles.heroBadgeHot}>🔥 Hot Cake</div>
+              <div className={styles.heroBadgeStock}>In Stock</div> */}
               <Image
                 src="/farm-produce/maize.jpg"
                 alt="Maize – Fresh Farm Maize 25 kg"

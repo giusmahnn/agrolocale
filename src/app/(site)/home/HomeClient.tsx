@@ -20,6 +20,9 @@ import {
 import { Post } from '@/lib/sanity/queries'
 import { useCarousel } from "@/hooks/useCarousel"
 
+const featuredProduceIds = new Set([2, 3, 4, 5])
+const featuredProduce = farmProduce.filter((produce) => featuredProduceIds.has(produce.id))
+
 
 
 /* ─── Animated counter hook ──────────────────────────── */
@@ -65,7 +68,7 @@ function PropertyCard({ l }: { l: typeof farmProduce[0] & { pdfUrl?: string } })
         <p className={styles.cardLoc}>📍 {l.location}</p>
 
         <div className={styles.cardMeta}>
-          <span>📐 {l.acreage}</span>
+          <span>📐 {l.variants}</span>
           <span>✅ Verified</span>
         </div>
 
@@ -526,7 +529,7 @@ export default function HomeClient({ posts = [] }: { posts?: Post[] }) {
                 Hand-picked premium agricultural products across Nigeria&apos;s most fertile regions.
               </p>
             </div>
-            <Link href="/projects" className={styles.viewAll}>View All Produce →</Link>
+            <Link href="/farm-produce" className={styles.viewAll}>View All Produce →</Link>
           </div>
 
           <div
@@ -544,13 +547,10 @@ export default function HomeClient({ posts = [] }: { posts?: Post[] }) {
               ←
             </button>
 
-            <div className={styles.cardsGrid} ref={listingsScrollRef}>
-              {(() => {
-                const filtered = farmProduce.filter((l) => [4, 3, 2, 5].includes(l.id));
-                return [...filtered, ...filtered].map((l, i) => (
-                  <PropertyCard key={`${l.id}-${i}`} l={l} />
-                ));
-              })()}
+            <div className={styles.cardsGridScroll} ref={listingsScrollRef}>
+              {[...featuredProduce, ...featuredProduce].map((produce, i) => (
+                <PropertyCard key={`${produce.id}-${i}`} l={produce} />
+              ))}
             </div>
 
             <button

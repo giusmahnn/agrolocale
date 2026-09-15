@@ -193,6 +193,25 @@
 }
 .viewAll:hover { color: var(--gold-600); border-color: var(--gold-600); letter-spacing: 0.01em; }
 
+/* ─── Featured Produce Carousel (always horizontal) ─── */
+.cardsGridScroll {
+  display: flex;
+  gap: 2rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  padding-bottom: 0.5rem;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.cardsGridScroll::-webkit-scrollbar {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .cardsGridScroll { gap: 1.25rem; }
+}
+
 /* Carousel wrapper + arrows (shared pattern) */
 .cardsCarouselWrap {
   position: relative;

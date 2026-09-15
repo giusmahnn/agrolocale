@@ -53,8 +53,8 @@ export default function CucumberPage() {
               </div>
             </div>
             <div className={styles.heroImgWrap}>
-              <div className={styles.heroBadgeHot}>🔥 Hot Cake</div>
-              <div className={styles.heroBadgeStock}>In Stock</div>
+              {/* <div className={styles.heroBadgeHot}>🔥 Hot Cake</div>
+              <div className={styles.heroBadgeStock}>In Stock</div> */}
               <Image
                 src="/farm-produce/cucumber.jpg"
                 alt="Cucumber – Fresh & Crisp Farm Cucumber 25 kg"

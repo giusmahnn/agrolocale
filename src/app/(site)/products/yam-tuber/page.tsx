@@ -54,8 +54,8 @@ export default function YamPage() {
               </div>
             </div>
             <div className={styles.heroImgWrap}>
-              <div className={styles.heroBadgeHot}>🔥 Hot Cake</div>
-              <div className={styles.heroBadgeStock}>In Stock</div>
+              {/* <div className={styles.heroBadgeHot}>🔥 Hot Cake</div>
+              <div className={styles.heroBadgeStock}>In Stock</div> */}
               <Image
                 src="/farm-produce/yam.jpg"
                 alt="Yam Tuber – Fresh & Nutritious Farm Yam 25 kg"
