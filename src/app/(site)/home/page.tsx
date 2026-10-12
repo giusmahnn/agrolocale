@@ -1,5 +1,6 @@
 import { getAllPosts } from '@/lib/sanity/queries'
 import HomeClient from './HomeClient'
+import Chatbot from "@/components/chatbot/Chatbot";
 
 export default async function HomePage() {
   let latestPosts: any[] = []
@@ -11,5 +12,10 @@ export default async function HomePage() {
     console.error("Failed to fetch latest posts for homepage:", error)
   }
 
-  return <HomeClient posts={latestPosts} />
+  return (
+    <>
+      <HomeClient posts={latestPosts} />
+      <Chatbot />
+    </>
+  )
 }
