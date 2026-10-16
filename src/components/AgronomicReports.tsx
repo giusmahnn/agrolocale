@@ -7,7 +7,8 @@ const reports = [
     title: "Agronomic Practices & Cultivation Yield Report - Tomato",
     description:
       "Download the 2026 agronomic report covering tomato cultivation practices and expected yield.",
-    file: "/docs/Agrolocale agronomic practices and cultivation yield report - Tomato.pdf",
+    file: "/docs/agronomic-tomato.pdf",
+    download: "Agrolocale agronomic practices and cultivation yield report - Tomato.pdf",
   },
   {
     icon: "🌶️",
@@ -15,7 +16,8 @@ const reports = [
     title: "Agronomic Practices & Cultivation Yield Report - Pepper",
     description:
       "Download the 2026 agronomic report covering pepper cultivation practices and expected yield.",
-    file: "/docs/Agrolocale agronomic practices and cultivation yield report - Pepper.pdf",
+    file: "/docs/agronomic-pepper.pdf",
+    download: "Agrolocale agronomic practices and cultivation yield report - Pepper.pdf",
   },
 ];
 
@@ -58,7 +60,7 @@ export default function AgronomicReports() {
 
                 <a
                 href={report.file}
-                download
+                download={report.download}
                 className={styles.downloadButton}
                 >
                 <span>Download {report.crop} Report</span>
