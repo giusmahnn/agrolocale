@@ -29,10 +29,15 @@ export default function Chatbot() {
 
   const [isOpen, setIsOpen] = useState(false);
 
+  const [isLoading, setIsLoading] =
+    useState(false);
+
   const [currentMenu, setCurrentMenu] =
     useState("welcome");
 
-  const [messages, setMessages] = useState<ChatMessage[]>([
+  const [messages, setMessages] = useState<
+    ChatMessage[]
+  >([
     createMessage(
       "bot",
       chatbotMenus.welcome.message
@@ -52,17 +57,8 @@ export default function Chatbot() {
   }
 
   function handleOption(option: ChatOption) {
-    /*
-     * Display the visitor's selected option
-     * inside the conversation.
-     */
     addMessage("user", option.label);
 
-    /*
-     * MENU
-     *
-     * Move to another chatbot menu.
-     */
     if (option.type === "menu") {
       const nextMenu =
         chatbotMenus[option.target];
@@ -86,21 +82,12 @@ export default function Chatbot() {
       return;
     }
 
-    /*
-     * ANSWER
-     *
-     * Display a predefined answer.
-     */
     if (option.type === "answer") {
       addMessage(
         "bot",
         option.answer
       );
 
-      /*
-       * Some answers can lead to another
-       * chatbot menu.
-       */
       if (option.next) {
         const nextMenu =
           chatbotMenus[option.next];
@@ -118,40 +105,86 @@ export default function Chatbot() {
       return;
     }
 
-    /*
-     * LINK
-     *
-     * Send the visitor to another page
-     * on the website.
-     */
     if (option.type === "link") {
       router.push(option.href);
+      return;
+    }
+
+    if (option.type === "external") {
+      window.open(
+        option.href,
+        "_blank",
+        "noopener,noreferrer"
+      );
 
       return;
     }
 
-    /*
-     * EXTERNAL
-     * Send the visitor to an external website.
-     */
-    if (option.type === "external") {
-        window.open(
-        option.href,
-        "_blank",
-        "noopener,noreferrer"
-        );
-
-        return;
-    }
-
     if (option.type === "phone") {
-        window.location.href = option.href;
-        return;
+      window.location.href =
+        option.href;
+
+      return;
     }
 
     if (option.type === "email") {
-        window.location.href = option.href;
-        return;
+      window.location.href =
+        option.href;
+
+      return;
+    }
+  }
+
+  async function handleSendMessage(
+    message: string
+  ) {
+    addMessage("user", message);
+
+    setIsLoading(true);
+
+    try {
+      const response = await fetch(
+        "/api/chatbot",
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type":
+              "application/json",
+          },
+
+          body: JSON.stringify({
+            message,
+            history: messages,
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          data.error ||
+            "Unable to process your request."
+        );
+      }
+
+      addMessage(
+        "bot",
+        data.response
+      );
+    } catch (error) {
+      console.error(
+        "AI chatbot error:",
+        error
+      );
+
+      addMessage(
+        "bot",
+        "Sorry, I'm having trouble responding right now. Please try again or contact our customer service team."
+      );
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -164,12 +197,10 @@ export default function Chatbot() {
         chatbotMenus.welcome.message
       ),
     ]);
+
+    setIsLoading(false);
   }
 
-  /*
-   * Safety check in case a menu is referenced
-   * incorrectly.
-   */
   if (!menu) {
     return null;
   }
@@ -183,6 +214,8 @@ export default function Chatbot() {
           onSelect={handleOption}
           onClose={() => setIsOpen(false)}
           onReset={handleReset}
+          onSendMessage={handleSendMessage}
+          isLoading={isLoading}
         />
       ) : (
         <ChatButton
