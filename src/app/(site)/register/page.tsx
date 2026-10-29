@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import ReferralForm from '@/components/ReferralForm';
+import ReferralForm from '@/components/referral/ReferralForm';
 import styles from './register.module.css';
 import { Metadata } from 'next';
 

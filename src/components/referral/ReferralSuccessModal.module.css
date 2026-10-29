@@ -1,0 +1,222 @@
+.overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    background: rgba(7, 20, 9, 0.6);
+    backdrop-filter: blur(3px);
+    animation: fadeIn 0.2s ease;
+}
+
+.modal {
+    position: relative;
+    width: 100%;
+    max-width: 480px;
+    max-height: 92vh;
+    overflow-y: auto;
+    border-radius: var(--radius-lg);
+    background: var(--white, #fff);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.3);
+    animation: popIn 0.25s ease;
+}
+
+.closeButton {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    z-index: 2;
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.18);
+    color: #fff;
+    cursor: pointer;
+    transition: background-color var(--transition);
+}
+
+.closeButton:hover {
+    background: rgba(255, 255, 255, 0.32);
+}
+
+.closeButton:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+}
+
+/* ---------- Green header band ---------- */
+
+.header {
+    padding: 36px 28px 30px;
+    text-align: center;
+    color: #fff;
+    background: linear-gradient(160deg, var(--green-600) 0%, var(--green-900) 100%);
+}
+
+.checkCircle {
+    display: inline-grid;
+    place-items: center;
+    width: 64px;
+    height: 64px;
+    margin-bottom: 16px;
+    border-radius: 50%;
+    background: #fff;
+    color: var(--green-700);
+    box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.18);
+    animation: checkPop 0.4s ease 0.1s both;
+}
+
+.title {
+    margin: 0 0 8px;
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    line-height: 1.3;
+    color: #fff;
+}
+
+.subtitle {
+    margin: 0;
+    font-size: 0.92rem;
+    line-height: 1.55;
+    color: rgba(255, 255, 255, 0.82);
+}
+
+/* ---------- Details + link ---------- */
+
+.body {
+    padding: 24px 28px 28px;
+}
+
+.details {
+    margin: 0 0 22px;
+    padding: 4px 16px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--green-50, #f2f8f4);
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.row:last-child {
+    border-bottom: none;
+}
+
+.row dt {
+    flex: none;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+}
+
+.row dd {
+    margin: 0;
+    font-weight: 600;
+    text-align: right;
+    word-break: break-word;
+    color: var(--green-900);
+}
+
+.linkLabel {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--green-900);
+}
+
+.linkRow {
+    display: flex;
+    gap: 8px;
+}
+
+.linkInput {
+    flex: 1;
+    min-width: 0;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: #fff;
+    font: inherit;
+    font-size: 0.9rem;
+    color: var(--green-900);
+}
+
+.linkInput:focus {
+    outline: none;
+    border-color: var(--green-500);
+    box-shadow: 0 0 0 3px rgba(58, 132, 89, 0.16);
+}
+
+.copyButton {
+    flex: none;
+    min-width: 84px;
+    padding: 12px 18px;
+    border: none;
+    border-radius: 10px;
+    background: var(--green-700);
+    color: #fff;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+        background-color var(--transition),
+        transform var(--transition);
+}
+
+.copyButton:hover {
+    background: var(--green-600);
+    transform: translateY(-1px);
+}
+
+@media (max-width: 480px) {
+    .header {
+        padding: 32px 20px 26px;
+    }
+
+    .body {
+        padding: 20px;
+    }
+
+    .linkRow {
+        flex-direction: column;
+    }
+}
+
+/* ---------- Motion ---------- */
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes popIn {
+    from { opacity: 0; transform: translateY(12px) scale(0.97); }
+    to { opacity: 1; transform: none; }
+}
+
+@keyframes checkPop {
+    from { opacity: 0; transform: scale(0.5); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .overlay,
+    .modal,
+    .checkCircle {
+        animation: none;
+    }
+}
