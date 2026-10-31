@@ -3,10 +3,11 @@
 
    Each crop owns its own journey:
      • stageProgress   → colours the 5-stage tracker for that crop
-     • remittedPercent → Crop Remittance card (and the Revenue Remittance stage)
+     • totalInvestors / investorsPaid → Crop Remittance % (calculated automatically)
      • phase           → picture + write-up shown in the "current phase" panel
 
    To update a crop, edit ONLY its object in `crops` below.
+   Paying more investors? Just raise that crop's `investorsPaid`.
 ───────────────────────────────────────────────────────── */
 
 export type StageStatus = 'completed' | 'in-progress' | 'pending'
@@ -35,9 +36,11 @@ export type CropPhaseContent = {
 export type CropInvestment = {
   id: string
   name: string
-  /** 0–100: share of this crop's revenue already remitted. */
-  remittedPercent: number
-  /** 0–100 per stage. Missing stages count as 0; `remittance` defaults to remittedPercent. */
+  /** Total number of investors in this crop. */
+  totalInvestors: number
+  /** How many of them have already been paid. Remittance % = investorsPaid / totalInvestors. */
+  investorsPaid: number
+  /** 0–100 per stage. Missing stages count as 0; `remittance` is calculated from investors paid. */
   stageProgress: Partial<Record<StageId, number>>
   phase: CropPhaseContent
 }
@@ -58,13 +61,26 @@ export function getStageStatus(stage: { progress: number }): StageStatus {
   return p >= 100 ? 'completed' : p > 0 ? 'in-progress' : 'pending'
 }
 
-export function getRemittanceProgress(crop: { remittedPercent: number }) {
-  const clamped = clampPct(crop.remittedPercent)
+type RemittanceInput = { totalInvestors: number; investorsPaid: number }
+
+/** Raw remittance percentage (0–100) from investors paid ÷ total investors. */
+export function getRemittedPercent(crop: RemittanceInput) {
+  const total = Number.isFinite(crop.totalInvestors) ? Math.max(0, crop.totalInvestors) : 0
+  if (total === 0) return 0
+  const paid = Number.isFinite(crop.investorsPaid) ? Math.min(total, Math.max(0, crop.investorsPaid)) : 0
+  return (paid / total) * 100
+}
+
+export function getRemittanceProgress(crop: RemittanceInput) {
+  const clamped = clampPct(getRemittedPercent(crop))
   let percent = 0
   if (clamped >= 100) percent = 100
-  else if (clamped > 0) percent = Math.min(99, Math.max(1, Math.round(clamped))) // never rounds up to 100
+  else if (clamped > 0) percent = Math.min(99, Math.max(1, Math.round(clamped))) // never rounds up to 100 until everyone is paid
   const status: StageStatus = percent >= 100 ? 'completed' : percent > 0 ? 'in-progress' : 'pending'
-  return { percent, status }
+
+  const total = Math.max(0, Math.round(crop.totalInvestors) || 0)
+  const paid = Math.min(total, Math.max(0, Math.round(crop.investorsPaid) || 0))
+  return { percent, status, paid, total }
 }
 
 /** Combine the shared stage definitions with one crop's progress. */
@@ -73,7 +89,7 @@ export function buildStages(definitions: StageDefinition[], crop: CropInvestment
     ...def,
     progress:
       def.id === 'remittance'
-        ? clampPct(crop.stageProgress.remittance ?? crop.remittedPercent)
+        ? clampPct(crop.stageProgress.remittance ?? getRemittanceProgress(crop).percent)
         : clampPct(crop.stageProgress[def.id]),
   }))
 }
@@ -150,8 +166,9 @@ export const crops: CropInvestment[] = [
   {
     id: 'sweet-potato',
     name: 'Sweet Potato',
-    remittedPercent: 0,
-    stageProgress: { subscription: 100, cultivation: 100, harvest: 100, sale: 91 },
+    totalInvestors: 29,
+    investorsPaid: 29,
+    stageProgress: { subscription: 100, cultivation: 100, harvest: 40, sale: 35 },
     phase: {
       stageDescriptions: {
         cultivation:
@@ -164,8 +181,9 @@ export const crops: CropInvestment[] = [
   {
     id: 'pepper',
     name: 'Pepper',
-    remittedPercent: 0,
-    stageProgress: { subscription: 100, cultivation: 100, harvest: 100, sale: 90 },
+    totalInvestors: 314,
+    investorsPaid: 1,
+    stageProgress: { subscription: 100, cultivation: 100, harvest: 30, sale: 60 },
     phase: {
       thankYou:
         'Thank you for investing in pepper with Agrolocale. Your full revenue has been remitted — we truly appreciate your trust.',
@@ -176,8 +194,9 @@ export const crops: CropInvestment[] = [
   {
     id: 'tomato',
     name: 'Tomato',
-    remittedPercent: 0,
-    stageProgress: { subscription: 100, cultivation: 100, harvest: 100, sale: 90 },
+    totalInvestors: 237,
+    investorsPaid: 42,
+    stageProgress: { subscription: 100, cultivation: 100, harvest: 60, sale: 75 },
     phase: {
       thankYou:
         'Thank you for investing in tomatoes with Agrolocale. Your full revenue has been remitted — we truly appreciate your trust.',
@@ -187,4 +206,4 @@ export const crops: CropInvestment[] = [
   },
 ]
 
-export const lastUpdated = '2026-10-26T10:42:00+01:00'
+export const lastUpdated = '2026-10-31T10:42:00+01:00'

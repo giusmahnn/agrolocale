@@ -1,0 +1,214 @@
+/* Section wrapper only: gives the tracker its own section on the page.
+   The card below keeps the component's original styling. */
+.section {
+  background: var(--cream-light);
+  /* padding: 5.5rem 0; */
+}
+/* .inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 2rem;
+} */
+
+/* ─── Original component styling (built on globals.css tokens) ─── */
+.tracker {
+  --lrt-green: var(--green-700);          /* filled icons, bars */
+  --lrt-green-text: var(--green-600);     /* green text accents */
+  --lrt-green-deep: var(--green-900);
+  --lrt-soft: #f2f8f4;                    /* light green panel tint */
+  --lrt-soft-line: #dcebe2;
+  --lrt-track: var(--border);
+  --lrt-pending-ink: var(--text-light);
+
+  font-family: var(--font-body);
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: 2.25rem 1.75rem;
+  box-shadow: var(--shadow-sm);
+  color: var(--text-primary);
+}
+@supports (color: color-mix(in srgb, red, blue)) {
+  .tracker {
+    --lrt-soft: color-mix(in srgb, var(--green-100) 28%, var(--white));
+    --lrt-soft-line: color-mix(in srgb, var(--green-100) 80%, var(--white));
+  }
+}
+
+/* ── Header ───────────────────────────────────────── */
+.header {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem;
+}
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 2.4vw, 1.9rem);
+  font-weight: 700; line-height: 1.2;
+  color: var(--green-900); margin: 0;
+}
+.subtitle { margin: 0.4rem 0 0; font-size: 0.95rem; color: var(--text-muted); line-height: 1.6; }
+.headerMeta { display: flex; flex-direction: column; align-items: flex-end; gap: 0.55rem; }
+.live {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  background: var(--green-100); color: var(--green-800);
+  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.04em;
+  padding: 0.4rem 1rem; border-radius: var(--radius-full);
+}
+.liveDot {
+  position: relative; width: 8px; height: 8px; border-radius: 50%;
+  background: var(--green-500);
+  animation: liveBlink 1.6s ease-in-out infinite;
+}
+.liveDot::after {
+  content: ''; position: absolute; inset: 0; border-radius: 50%;
+  background: var(--green-400);
+  animation: livePing 1.6s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+@keyframes livePing {
+  0%   { transform: scale(1);   opacity: 0.7; }
+  75%, 100% { transform: scale(3.2); opacity: 0; }
+}
+@keyframes liveBlink {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.45; }
+}
+.updated { font-size: 0.8rem; color: var(--text-muted); }
+.updated time { font-weight: 500; color: var(--text-secondary); }
+
+/* ── Stages ───────────────────────────────────────── */
+.stagesPanel {
+  background: var(--lrt-soft);
+  border: 1px solid var(--lrt-soft-line);
+  border-radius: var(--radius-lg);
+  padding: 2.25rem 1rem 2rem;
+  margin-bottom: 1.5rem;
+}
+.stagesScroll { overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: thin; }
+.stages {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: repeat(5, minmax(128px, 1fr));
+  min-width: 680px;
+}
+.stage { display: flex; flex-direction: column; align-items: center; text-align: center; }
+.stageIconRow { position: relative; width: 100%; display: flex; justify-content: center; margin-bottom: 1rem; }
+.stageIcon {
+  position: relative; z-index: 1;
+  width: 72px; height: 72px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--border); color: var(--lrt-pending-ink);
+  box-shadow: 0 0 0 5px var(--white);
+  transition: background var(--transition), color var(--transition);
+}
+.stageIcon svg { width: 30px; height: 30px; }
+.stateCompleted .stageIcon,
+.stateActive .stageIcon {
+  background: var(--lrt-green); color: var(--gold-300);
+  box-shadow: 0 0 0 5px var(--white), 0 0 0 7px var(--green-100);
+}
+
+/* connector sits between this icon and the next one */
+.connector {
+  position: absolute; top: 50%; left: calc(50% + 52px); width: calc(100% - 104px);
+  height: 2px; transform: translateY(-50%); background: var(--lrt-track);
+}
+.connectorOn { background: var(--green-500); }
+
+.stageName { font-weight: 600; font-size: 0.92rem; color: var(--text-primary); line-height: 1.35; }
+.stageStatus { margin-top: 0.4rem; font-size: 0.8rem; font-weight: 500; color: var(--text-muted); }
+.stagePct {
+  margin-top: 0.15rem; font-family: var(--font-display);
+  font-size: 1.3rem; font-weight: 700; line-height: 1.3;
+  color: var(--text-light); font-variant-numeric: lining-nums;
+}
+.stateCompleted .stageStatus, .stateActive .stageStatus { color: var(--lrt-green-text); }
+.stateCompleted .stagePct, .stateActive .stagePct { color: var(--lrt-green); }
+
+/* ── Lower row ────────────────────────────────────── */
+.lower { display: grid; grid-template-columns: minmax(0, 1.9fr) minmax(0, 1fr); gap: 1.5rem; align-items: stretch; }
+
+.phaseCard {
+  display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: 1.75rem;
+  border: 1px solid var(--border); border-radius: var(--radius-lg);
+  padding: 1rem; background: var(--white);
+}
+.phaseImg { position: relative; min-height: 300px; border-radius: var(--radius-md); overflow: hidden; background: var(--lrt-soft); }
+.phaseBody { display: flex; flex-direction: column; justify-content: center; padding-right: 0.5rem; }
+.phaseTitle { font-family: var(--font-display); font-size: 1.4rem; font-weight: 700; color: var(--green-900); margin: 0; }
+.phasePct {
+  margin: 0.5rem 0 0.85rem; font-family: var(--font-display);
+  font-size: 1.4rem; font-weight: 700; color: var(--lrt-green-text);
+  font-variant-numeric: lining-nums;
+}
+.phaseText { margin: 0 0 1.4rem; color: var(--text-muted); line-height: 1.8; font-size: 0.95rem; }
+
+/* ── Crop remittance ──────────────────────────────── */
+.remitCard {
+  background: var(--lrt-soft); border: 1px solid var(--lrt-soft-line);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem; display: flex; flex-direction: column;
+}
+.remitTitle { font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; color: var(--green-900); margin: 0 0 1rem; }
+
+.selectWrap { position: relative; margin-bottom: 1.4rem; }
+.select {
+  appearance: none; -webkit-appearance: none; width: 100%;
+  background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-md);
+  padding: 0.85rem 2.5rem 0.85rem 2.8rem;
+  font-family: var(--font-body); font-size: 0.95rem; font-weight: 500;
+  color: var(--text-primary); cursor: pointer;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+.select:hover { border-color: var(--green-400); }
+.select:focus-visible { outline: 3px solid var(--gold-400); outline-offset: 2px; border-color: var(--green-500); }
+.selectLeaf, .selectChevron { position: absolute; top: 50%; transform: translateY(-50%); pointer-events: none; display: flex; }
+.selectLeaf { left: 0.95rem; color: var(--green-500); }
+.selectChevron { right: 0.95rem; color: var(--text-secondary); }
+.selectLeaf svg, .selectChevron svg { width: 20px; height: 20px; }
+
+.remitPercent { display: flex; align-items: baseline; gap: 0.6rem; margin: 0; color: var(--text-muted); font-size: 1rem; font-weight: 500; }
+.remitPercent strong {
+  font-family: var(--font-display); font-weight: 700; font-size: 2.4rem; line-height: 1.1;
+  color: var(--lrt-green); font-variant-numeric: lining-nums;
+}
+.remitMeta { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; margin: 0.75rem 0 1.1rem; }
+.remitCheck { color: var(--green-500); font-weight: 800; }
+.remitBadge { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.04em; padding: 0.22rem 0.7rem; border-radius: var(--radius-full); }
+.badge_completed { background: var(--green-100); color: var(--green-800); }
+.badge_in_progress { background: var(--gold-100); color: var(--gold-700); }
+.badge_pending { background: var(--border); color: var(--text-muted); }
+
+/* ── Shared progress bar ──────────────────────────── */
+.track { height: 10px; border-radius: var(--radius-full); background: var(--lrt-track); overflow: hidden; }
+.remitCard .track { margin-top: auto; }
+.fill { height: 100%; border-radius: inherit; transition: width 0.5s var(--ease); }
+.fillActive { background: linear-gradient(90deg, var(--green-700), var(--green-500)); }
+.fillComplete { background: var(--green-700); }
+
+.srOnly { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ── Crop-switch fade ─────────────────────────────── */
+.swap { animation: lrtSwap 0.45s var(--ease) both; }
+@keyframes lrtSwap {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fill, .stageIcon { transition: none; }
+  .liveDot, .liveDot::after, .swap { animation: none; }
+}
+
+/* ── Responsive ───────────────────────────────────── */
+@media (max-width: 900px) {
+  .lower { grid-template-columns: 1fr; }
+  .remitCard .track { margin-top: 0.25rem; }
+}
+@media (max-width: 640px) {
+  .section { padding: 3.5rem 0; }
+  .inner { padding: 0 1.25rem; }
+  .tracker { padding: 1.1rem; border-radius: var(--radius-lg); }
+  .headerMeta { flex-direction: row; flex-wrap: wrap; align-items: center; }
+  .phaseCard { grid-template-columns: 1fr; gap: 1.25rem; }
+  .phaseImg { min-height: 220px; }
+  .phaseBody { padding-right: 0; }
+}

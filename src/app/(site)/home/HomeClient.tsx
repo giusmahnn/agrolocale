@@ -20,6 +20,8 @@ import {
 import { Post } from '@/lib/sanity/queries'
 import { useCarousel } from "@/hooks/useCarousel"
 import AgronomicReports from "@/components/AgronomicReports";
+import { LiveRemittanceTracker } from '@/components/investment'
+import { crops, stageDefinitions, lastUpdated } from '@/data/investment-data'
 
 const featuredProduceIds = new Set([2, 3, 4, 5])
 const featuredProduce = farmProduce.filter((produce) => featuredProduceIds.has(produce.id))
@@ -246,6 +248,13 @@ export default function HomeClient({ posts = [] }: { posts?: Post[] }) {
           </div>
         </div>
       </section>
+
+      {/* ─── LIVE REMITTANCE TRACKER ───────────────────── */}
+      <LiveRemittanceTracker
+        crops={crops}
+        stageDefinitions={stageDefinitions}
+        lastUpdated={lastUpdated}
+      />
 
       <AgronomicReports />
 
