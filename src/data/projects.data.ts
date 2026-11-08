@@ -26,6 +26,7 @@ export const paradisoProducts2 = [
 export const paradisoProducts3 = [
   'Cocoa',
   'Oil Palm',
+  'Farm cluster'
 ]
 
 /* ─── Aduke unit types ───────────────────────────────── */
@@ -39,22 +40,7 @@ export type AdukeUnit = typeof adukeUnits[number]
 
 /* ─── Data ───────────────────────────────────────────── */
 export const allListings = [
-  {
-    id: 5, title: 'Paradiso Farms III',                  
-    location: 'Alabata Road, Abeokuta', 
-    state: 'Ogun',
-    price: 0, acreage: 0, type: 'produce',
-    image: '/products/paradiso_iii.jpeg',
-    badge: 'Available', verified: true,
-    priceLabel: 'Contact Us', acreageLabel: 'Available',
-    pdfUrl: undefined as string | undefined,
-    note: '',
-    products: paradisoProducts3 as string[] | undefined,
-    cofo: false, paymentPlan: false,
-    flierImages: [] as string[],
-    units: undefined as AdukeUnit[] | undefined,
-    status: undefined as string | undefined,
-  },
+  
   {
     id: 3, title: 'Elysian Farms and Resort',       
     location: 'Ido-Eruwa Expressway, Ibadan', 
@@ -63,6 +49,8 @@ export const allListings = [
     image: '/products/elysian.png',
     badge: '🌿 Land Offer', verified: true,
     priceLabel: 'Contact Us', acreageLabel: 'Available on Sale',
+    link: 'https://elysianfarmsandresort.agrolocale.com',
+    linkLabel: 'View Details',
     pdfUrl: undefined as string | undefined,
     note: '',
     cofo: true, paymentPlan: true,
@@ -79,6 +67,8 @@ export const allListings = [
     image: '/products/cottages.jpeg',
     badge: '🏠 Housing Offer', verified: true,
     priceLabel: 'From ₦28M', acreageLabel: 'Available on Sale',
+    link: 'https://elysianfarmsandresort.agrolocale.com/#cottages',
+    linkLabel: 'View Details',
     pdfUrl: undefined as string | undefined,
     note: '6 months interest free · Initial deposit ₦5M · Managed by Localite Hospitality',
     cofo: true, paymentPlan: true,
@@ -86,6 +76,24 @@ export const allListings = [
     units: adukeUnits as AdukeUnit[] | undefined,
     status: undefined as string | undefined,
     products: undefined as string[] | undefined,
+  },
+  {
+    id: 5, title: 'Paradiso Farms III',                  
+    location: 'Alabata Road, Abeokuta', 
+    state: 'Ogun',
+    price: 0, acreage: 0, type: 'produce',
+    image: '/products/paradiso_iii.jpeg',
+    badge: 'Sold Out', verified: true,
+    priceLabel: 'Contact Us', acreageLabel: 'Sold Out',
+    link: '/contact',
+    linkLabel: 'Sold Out',
+    pdfUrl: undefined as string | undefined,
+    note: '',
+    products: paradisoProducts3 as string[] | undefined,
+    cofo: false, paymentPlan: false,
+    flierImages: [] as string[],
+    units: undefined as AdukeUnit[] | undefined,
+    status: 'sold-out' as string | undefined,
   },
   {
     id: 4, title: 'Paradiso Farms II', 
@@ -96,6 +104,8 @@ export const allListings = [
     badge: 'Sold Out', verified: true,
     status: 'sold-out' as string | undefined,
     priceLabel: 'Contact Us', acreageLabel: 'Sold Out',
+    link: '/contact',
+    linkLabel: 'Sold Out',
     pdfUrl: undefined as string | undefined,
     note: '',
     products: paradisoProducts2 as string[] | undefined,
@@ -126,6 +136,8 @@ export const allListings = [
     badge: 'Sold Out', verified: true,
     status: 'sold-out' as string | undefined,
     priceLabel: 'Contact Us', acreageLabel: 'Sold Out',
+    link: '/contact',
+    linkLabel: 'Sold Out',
     pdfUrl: undefined as string | undefined,
     note: '',
     cofo: false, paymentPlan: false,

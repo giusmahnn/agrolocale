@@ -15,7 +15,14 @@ import {
 // import { propTypes, states } from '@/data/projects.data'
 
 /* ─── Flier Modal ────────────────────────────────────── */
-function FlierModal({ title, images, onClose, pdfUrl }: { title: string; images: string[]; onClose: () => void; pdfUrl?: string }) {
+function FlierModal({ title, images, onClose, pdfUrl, link, linkLabel }: {
+  title: string
+  images: string[]
+  onClose: () => void
+  pdfUrl?: string
+  link: string
+  linkLabel: string
+}) {
   const [activeIdx, setActiveIdx] = useState(0)
 
   useEffect(() => {
@@ -82,7 +89,13 @@ function FlierModal({ title, images, onClose, pdfUrl }: { title: string; images:
               📥 Download Brochure
             </a>
           )}
-          <Link href="/contact" className={styles.modalCta}>Enquire Now →</Link>
+          {link.startsWith('http') ? (
+            <a href={link} target="_blank" rel="noopener noreferrer" className={styles.modalCta}>
+              {linkLabel} →
+            </a>
+          ) : (
+            <Link href={link} className={styles.modalCta}>{linkLabel} →</Link>
+          )}
         </div>
       </div>
     </div>
@@ -103,6 +116,20 @@ function ListingCard({ l, mode, onFlierClick }: {
     : styles.badgeGold
 
   const hasFliers = l.flierImages.length > 0
+
+  const cta = isSoldOut ? (
+    <span className={styles.enquireBtn} style={{ opacity: 0.7, pointerEvents: 'none' }}>
+      {l.linkLabel}
+    </span>
+  ) : l.link.startsWith('http') ? (
+    <a href={l.link} target="_blank" rel="noopener noreferrer" className={styles.enquireBtn}>
+      {l.linkLabel}
+    </a>
+  ) : (
+    <Link href={l.link} className={styles.enquireBtn}>
+      {l.linkLabel}
+    </Link>
+  )
 
   return (
     <article className={`${styles.card} ${mode === 'list' ? styles.cardList : ''}`}>
@@ -167,15 +194,7 @@ function ListingCard({ l, mode, onFlierClick }: {
               {isSoldOut ? 'No longer available' : isComingSoon ? 'Register Interest' : isProduce ? 'Call to Order' : ''}
             </span>
           </div>
-          {isSoldOut ? (
-            <span className={styles.enquireBtn} style={{ opacity: 0.7, pointerEvents: 'none' }}>
-              Sold Out
-            </span>
-          ) : (
-            <Link href="/contact" className={styles.enquireBtn}>
-              {isComingSoon ? 'Register Interest' : isProduce ? 'Enquire Now' : 'Enquire Now'}
-            </Link>
-          )}
+          {cta}
         </div>
         {l.pdfUrl && (
           <a href={l.pdfUrl} download className={styles.downloadBtn}>
@@ -334,6 +353,8 @@ export default function ProjectsPage() {
           images={openListing.flierImages}
           onClose={() => setOpenFlier(null)}
           pdfUrl={openListing.pdfUrl}
+          link={openListing.link}
+          linkLabel={openListing.linkLabel}
         />
       )}
     </main>

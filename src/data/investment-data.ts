@@ -167,7 +167,7 @@ export const crops: CropInvestment[] = [
     id: 'sweet-potato',
     name: 'Sweet Potato',
     totalInvestors: 29,
-    investorsPaid: 24,
+    investorsPaid: 29,
     stageProgress: { subscription: 100, cultivation: 100, harvest: 40, sale: 35 },
     phase: {
       stageDescriptions: {
@@ -182,7 +182,7 @@ export const crops: CropInvestment[] = [
     id: 'pepper',
     name: 'Pepper',
     totalInvestors: 314,
-    investorsPaid: 0,
+    investorsPaid: 3,
     stageProgress: { subscription: 100, cultivation: 100, harvest: 30, sale: 60 },
     phase: {
       thankYou:
@@ -195,7 +195,7 @@ export const crops: CropInvestment[] = [
     id: 'tomato',
     name: 'Tomato',
     totalInvestors: 237,
-    investorsPaid: 47,
+    investorsPaid: 39,
     stageProgress: { subscription: 100, cultivation: 100, harvest: 60, sale: 75 },
     phase: {
       thankYou:
