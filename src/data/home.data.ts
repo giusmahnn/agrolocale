@@ -37,17 +37,17 @@ export const featuredProjects: FeaturedProjects[] = [
     location: "Ido-Eruwa Expressway, Ibadan",
     status: "Available on Sale",
   },
-  {
-    id: "paradiso",
-    title: "Paradiso III – Cocoa & Oil-palm",
-    image: "/images/paradiso3/paradiso3_payment_plan.jpeg",
-    alt: "Paradiso III – Cocoa & Oil-palm",
-    badge: "Land Offer",
-    badgeIcon: "🌿",
-    tags: ["📜 CofO", "💳 Payment Plan Available"],
-    location: "Alabata road, Abeokuta, Ogun State",
-    status: "Available on Sale",
-  },
+  // {
+  //   id: "paradiso",
+  //   title: "Paradiso III – Cocoa & Oil-palm",
+  //   image: "/images/paradiso3/paradiso3_payment_plan.jpeg",
+  //   alt: "Paradiso III – Cocoa & Oil-palm",
+  //   badge: "Land Offer",
+  //   badgeIcon: "🌿",
+  //   tags: ["📜 CofO", "💳 Payment Plan Available"],
+  //   location: "Alabata road, Abeokuta, Ogun State",
+  //   status: "sold-out",
+  // },
 ];
 
 export const farmProduce = [

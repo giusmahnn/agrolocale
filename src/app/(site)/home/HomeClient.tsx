@@ -93,7 +93,7 @@ function PropertyCard({ l }: { l: typeof farmProduce[0] & { pdfUrl?: string } })
 }
 
 /* ─── Flier Gallery Modal ────────────────────────────── */
-function FlierModal({ title, images, onClose, pdfUrl }: { title: string; images: string[]; onClose: () => void; pdfUrl?: string }) {
+function FlierModal({ title, images, onClose, pdfUrl, link, linkLabel }: { title: string; images: string[]; onClose: () => void; pdfUrl?: string; link:string; linkLabel:string }) {
   const [activeIdx, setActiveIdx] = useState(0)
 
   // Close on ESC
@@ -162,7 +162,13 @@ function FlierModal({ title, images, onClose, pdfUrl }: { title: string; images:
               📥 Download Brochure
             </a>
           )}
-          <Link href="/contact" className={styles.modalCta}>Enquire Now →</Link>
+          {link.startsWith('http') ? (
+            <a href={link} target="_blank" rel="noopener noreferrer" className={styles.modalCta}>
+              {linkLabel} →
+            </a>
+          ) : (
+            <Link href={link} className={styles.modalCta}>{linkLabel} →</Link>
+          )}
         </div>
       </div>
     </div>
@@ -451,7 +457,7 @@ export default function HomeClient({ posts = [] }: { posts?: Post[] }) {
 
                       <span className={styles.produceActionArrow}>
                         →
-                      </span>
+                      </span> 
                     </div>
                   </div>
                 </div>
@@ -613,7 +619,9 @@ export default function HomeClient({ posts = [] }: { posts?: Post[] }) {
               <div className={styles.elysianMetaChip}>📍 Ido-Eruwa Expressway, Ibadan</div>
               <div className={styles.elysianMetaChip}>🌾 Farm &amp; Resort</div>
               <div className={styles.elysianMetaChip}>✅ Available on Sale</div>
-              <a href="/projects" className={styles.elysianMetaCta}>View Listing Details →</a>
+              <a href="https://elysianfarmsandresort.agrolocale.com" target="_blank" rel="noopener noreferrer" className={styles.elysianMetaCta}>
+                View Elysian →
+              </a>
             </div>
 
           </div>
@@ -936,7 +944,9 @@ export default function HomeClient({ posts = [] }: { posts?: Post[] }) {
           title="Aduke Cottages"
           images={adukeFlierImages}
           onClose={() => setOpenModal(null)}
-          pdfUrl="/docs/Aduke Brochure.pdf"
+          // pdfUrl="/docs/Aduke Brochure.pdf"
+          link="https://elysianfarmsandresort.agrolocale.com/#cottages"
+          linkLabel="View Aduke"
         />
       )}
       {openModal === 'elysian' && (
@@ -944,6 +954,8 @@ export default function HomeClient({ posts = [] }: { posts?: Post[] }) {
           title="Elysian Farms & Resort"
           images={elysianFlierImages}
           onClose={() => setOpenModal(null)}
+          link="https://elysianfarmsandresort.agrolocale.com"
+          linkLabel="View Elysian"
         />
       )}
     </main>

@@ -14,8 +14,8 @@ const footerLinks = [
 
 const currentOfferings = [
   { label: 'Paradiso Farms',                 href: '/projects' },
-  { label: 'Aduke Cottages',                href: '/projects' },
-  { label: 'Elysian Farms and Resort',      href: '/projects' },
+  { label: 'Aduke Cottages',                href: "https://elysianfarmsandresort.agrolocale.com/#cottages" },
+  { label: 'Elysian Farms and Resort',      href: "https://elysianfarmsandresort.agrolocale.com/" },
   { label: 'Garri Go! – Fresh Garri Ijebu', href: '/products/garri-go' },
   { label: "Garri Go Mix! – Fresh & Creamy", href: '/products/garri-go-mix' },
 ]
